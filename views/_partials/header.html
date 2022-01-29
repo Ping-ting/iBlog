@@ -1,0 +1,92 @@
+<div class="wrap">
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-md-9 col-lg-8 col-xl-9">
+					<div class="header__content">
+						<!-- header menu btn -->
+						<button class="header__btn" type="button">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+						<!-- end header menu btn -->
+
+						<!-- header logo -->
+						<a href="/" class="header__logo" style="border-radius: 6px;background-color: #3796f6; height: 60%;color: #fff;font-weight: 700;font-size: 22px;">
+							iBlog
+						</a>
+						<!-- end header logo -->
+
+						<!-- header nav -->
+						<ul class="header__nav">
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=Python" class="header__nav-link">Python</a>
+							</li>
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=Java" class="header__nav-link">Java</a>
+							</li>
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=Golang" class="header__nav-link">Golang</a>
+							</li>
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=JS" class="header__nav-link">JS</a>
+							</li>
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=Node" class="header__nav-link">Node</a>
+							</li>
+							<li class="header__nav-item">
+							<a href="/classifyBlog?tag=PHP" class="header__nav-link">PHP</a>
+							</li>
+						</ul>
+						<!-- header search -->
+						<form class="header__search" method="post" action="/searchBlog">
+								<input name="searchTag"  type="text" style="display: none;" value="{{Tag}}">
+								<input name="searchContent" id="search_content" class="header__search-input" type="text" placeholder="搜索...">
+								<button id="search_button" class="header__search-button" type="submit">
+									<i class="icon iconfont">GO</i>
+								</button>
+						</form>
+						<!-- end header search -->
+					</div>
+				</div>
+
+				<div class="col-5 col-md-3 col-lg-4 col-xl-3">
+					<div class="header__content header__content--end">
+						{{ if user!=null }}
+						<div class="user-outer">
+							<img id="head" src={{user.avatar}}></img>
+							<div class="hidden-list">
+								<p id="id"><i class="iconfont" style="color: rgb(235, 193, 116);">&#xe600;</i>&nbsp;&nbsp;{{ user.nickname }}</p>
+								<a id="personalHomepage" href="/personalHomepage?id={{user._id}}"><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;">&#xe72a;</i>&nbsp;&nbsp;个人主页</a>
+								<a id="manageBlog" href="/managerBlog?id={{user._id}}"><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;">&#xe65d;</i>&nbsp;&nbsp;内容管理</a>
+								<a id="publishBlog" href="/publishBlog"><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;">&#xe635;</i>&nbsp;&nbsp;发表博客</a>
+								<a id="changeInformation" href="/changeInformation"><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;font-size: 18px;">&#xe601;</i>&nbsp;&nbsp;信息修改</a>
+								<a id="settings" href=""><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;">&#xe654;</i>&nbsp;&nbsp;设置</a>
+								<a id="out" href="/logout"><i class="iconfont" style="color: rgb(121, 121, 121);vertical-align: -3px;">&#xe67b;</i>&nbsp;&nbsp;退出</a>
+							</div>
+						</div>
+						<div class="header__notifications">
+							<a href="messages.html" class="header__messages header__messages--active">
+							<i class="iconfont">&#xe69e;</i>
+							</a>
+						</div>
+						<div class="header__notifications">
+							<a class="header__notifications-btn header__notifications-btn--active">
+							<i class="iconfont">&#xe758;</i>
+							</a>
+						</div>
+						{{ else }}
+						<div class="header__notifications">
+						<a class="header__nav-link" href="/login">登录</a>
+						</div>
+						<div class="header__notifications">
+						<a class="header__nav-link" href="/register">注册</a>
+						</div>
+						{{ /if }}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</header>

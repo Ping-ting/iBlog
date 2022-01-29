@@ -1,0 +1,135 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}iBlog-home{{/block}}
+{{block 'head'}}
+<style>
+.pagination{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.blog_main{
+    height: 190px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.blog_cover{
+    width: 25%;
+    position: absolute;
+    top: 0px;
+}
+.post__description{
+    width: 72%;
+    float: right;
+}
+</style>
+{{/block}}
+{{block 'body'}}
+    <main class="main main--breadcrumb">
+        <!-- 面包屑导航 -->
+		<div class="breadcrumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul class="breadcrumb__wrap">
+							<li class="breadcrumb__item breadcrumb__item--active"><a href="/">首页</a></li>
+                            <i class="iconfont"></i>
+							<li class="breadcrumb__item breadcrumb__item--active"><i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>{{ more }}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="container" style="margin-top: -20px;">
+            <div class="row">
+                <!-- 博客主体内容 -->
+                <div class="col-12 col-md-7 col-lg-8 col-xl-12" style="position: relative;">
+                    {{ if hotBlogs}}
+                        {{ each hotBlogs }}
+                        <div class="post">
+                            <div class="post__head">
+                                <a href="/personalHomepage?id={{$value.author._id}}" class="post__head-img">
+                                    <img src={{$value.author.avatar}} alt="">
+                                </a>
+                                <div class="post__head-title">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                    <h5><a href="/personalHomepage?id={{$value.author._id}}">{{$value.author.nickname}}</a></h5>
+                                    <p>{{moment($value.blog.time).format('YYYY-MM-DD') }}</p>
+                                </div>
+                            </div>
+                            <div class="post__wrap">
+                                <div class="post__company">
+                                    <i class="iconfont"></i>
+                                    <span>{{if $value.author.gender==0}}女{{else if $value.author.gender==1}}男{{else}}未知{{/if}}</span>
+                                </div>
+                                <div class="post__location">
+                                    <i class="iconfont"></i>
+                                    <span>来自陕西西安</span>
+                                </div>
+                                <div class="post__actions">
+                                    
+                                    <a class="post__actions-btn post__actions-btn--green" href="/detail?id={{$value.blog._id}}">
+                                        <i class="iconfont" title="详情">&#xe6dd;</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <h2 class="post__title">{{$value.blog.title}}</h2>
+                            <div class="blog_main" style="position: relative;">
+                                
+                                <img class="blog_cover" src={{$value.blog.cover}} alt="">
+                                
+                                <div class="post__description">
+                                    <p>
+                                        {{$value.blog.content}}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="post__tags">
+                                {{ each $value.blog.tag}}
+                                <a href="#">{{ $value }}</a>
+                                {{ /each}}
+                            </div>
+                            <div class="post__stats">
+                                <div class="post__views" title="浏览量">
+                                    <i class="iconfont">&#xe663;</i> 
+                                    <span>{{ $value.views}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        {{ /each }}
+                    {{ /if }}
+                    
+                    {{ if hotBloggers}}
+                    <!-- 热门博主 -->
+                    <div class="sidebox sidebox--desk" style="margin-top: -10px;">
+                        <h4 class="sidebox__title">总榜</h4>
+                        <div class="sidebox__content" >
+                            {{ each hotBloggers}}
+                            <div class="sidebox__user" >
+                                <a href="/personalHomepage?id={{$value.blogger._id}}" class="sidebox__user-img">
+                                    <img src="{{$value.blogger.avatar}}" alt="">
+                                </a>
+                                <div class="sidebox__user-title">
+                                    <h5><a href="/personalHomepage?id={{$value.blogger._id}}">{{$value.blogger.nickname}}</a></h5>
+                                    <p>累计发表 {{$value.num}} 篇博客</p>
+                                </div>
+                                
+                            </div>
+                            {{ /each }}
+                        </div>
+                    </div>
+                    <!-- 热门博主 -->
+                    {{ /if}}
+                </div>
+
+            </div>
+        </div>
+    </main>    
+</div>
+
+<!-- end main content -->
+
+
+{{/block}}

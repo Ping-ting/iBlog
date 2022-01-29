@@ -1,0 +1,288 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}{{'iBlog-edit'}}{{/block}}
+{{block 'head'}}
+<link rel="stylesheet" href="/public/css/avatar.css">
+<link rel="icon" href="/public/img/iLogo.svg">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<style>
+	#form_link:hover{
+		text-decoration: underline;
+	}
+	.wrap{
+	min-height: 100%;
+	}
+	.footer{
+        display: none;
+	}
+    .tagActive{
+        font-weight: 800;
+        color:#3796f6 ;
+    }
+    .delete_comment{
+        display: none;
+    }
+    .commentBox:hover{
+        cursor: pointer;
+    }
+    .commentBox:hover>.delete_comment{
+        display:inline-flex;
+    }
+</style>
+{{/block}}
+
+{{block 'body'}}
+	<!-- main content -->
+	<main class="main" >
+		<!-- 面包屑导航 -->
+		<div class="breadcrumb" style="margin-top: -50px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul class="breadcrumb__wrap">
+							<li class="breadcrumb__item breadcrumb__item--active"><a href="/">首页</a></li>
+                            <i class="iconfont"></i>
+							<li class="breadcrumb__item breadcrumb__item--active"><i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>内容管理<i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>编辑</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end breadcrumb -->
+		<div class="container" style="margin-top: -30px;position: relative;">
+			<div class="row" style="position: relative;">
+
+				<div class="col-12 col-md-7 col-lg-8 col-xl-7" >
+					
+					<div class="tab-content" style="margin-top: 10px;">
+
+						<div class="tab-pane active"  role="tabpanel" aria-labelledby="tab-2">
+							<!-- form -->
+							<form class="form" method="post" id="edit_blog" >
+								<div class="row">
+									<div class="col-12">
+										<h2 class="form__title">Edit Blog</h2>
+									</div>
+									<div class="col-12 col-lg-7">
+										<div class="form__group">
+											<label for="email" class="form__label">作者邮箱:</label>
+											<input name="email" id="email" type="text" class="form__input" value="{{ user.email }}" disabled style="cursor: not-allowed;color: rgb(206, 206, 206);">
+										</div>
+                                        <div class="form__group" style="display: none;">
+											<input id="user_id"  type="text" class="form__input" value="{{ user._id }}" >
+										</div>
+                                        <div class="form__group">
+											<label for="email" class="form__label">博客id:</label>
+											<input name="blogId" id="blog_id" type="text" class="form__input" value="{{ blog._id }}" disabled style="cursor: not-allowed;color: rgb(206, 206, 206);">
+										</div>
+                                        <div class="form__group">
+											<label for="title" class="form__label">博客标题:</label>
+											<input name="title" id="blog_title" type="text" class="form__input"  value="{{ blog.title }}">
+										</div
+                                        <div class="form__group">
+                                            <label for="kind" class="form__label">博客类型：</label>
+                                            <div class="" style="width: 100%;position: relative;">
+                                                <i class="iconfont" style="font-size: 12px;color:rgb(194, 194, 194) ;position: absolute;right: 10%;top: 30%;cursor: pointer;">&#xe624;</i>
+                                                <select name="kind"  class="form__select">
+                                                    {{ each kinds}}
+                                                    {{ if $value == blog.kind}}
+                                                    <option value="{{$value}}" selected>{{$value}}</option>
+                                                    {{ else }}
+                                                    <option value="{{$value}}" >{{$value}}</option>
+                                                    {{ /if}}
+                                                    {{ /each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form__group" style="margin-top: 20px;">
+											<label for="tag" class="form__label">博客标签:</label>
+                                            <div style="width: 100%;">
+                                                {{ each tags}}
+                                                {{ if  blog.tag.indexOf($value)!= -1 }}
+                                                <label class="checkbox-inline checkTag tagActive">
+                                                    <input  type="checkbox" name="tag" value="{{$value}}" checked><i class="iconfont">&#xe625;</i> {{$value}}
+                                                </label>
+                                                {{ else}}
+                                                <label class="checkbox-inline checkTag">
+                                                    <input  type="checkbox" name="tag" value="{{$value}}" ><i class="iconfont">&#xe625;</i> {{$value}}
+                                                </label>
+                                                {{ /if}}
+                                                {{ /each}}
+                                            </div>
+                                            
+										</div>
+									</div>
+                                    <div class="col-12 col-lg-2" style="padding: 0;">
+										<div class="form-group">
+                                            <div class="con4" >
+                                                <label for="cover" class="form__label">博客封面:</label><br>
+                                                <label for="cover" class="form__label"><span style="font-size: 12px;color: #8599ab;font-weight: normal;"> 右边为原博客封面，建议选择正方形的图片哦...</span></label>
+                                                <img src="{{blog.cover}}" alt="" style="width: 180px;height: 180px;position: absolute;border-radius: 4px;left: 280px;top: 95px;">
+                                                <canvas id="cvs" width="200" height="200"></canvas>
+                                                <span class="btn upload" >重新选择封面<input type="file" class="upload_pic" id="uploadCover" name="cover" /></span>
+                                            </div>
+                                        </div>
+									</div>
+                                    <div class="col-12">
+                                        <div class="form__group">
+                                            <label for="content" class="form__label">博客内容：</label>
+                                            <textarea name="content" id="description" class="form__textarea" >{{ blog.content }}</textarea>
+                                        </div>
+                                    </div>
+									<div class="col-12">
+										<button class="form__btn" type="submit"><span>保存</span></button>
+									</div>
+								</div>
+							</form>
+							<!-- end form -->
+						</div>
+
+					</div>
+                    
+				</div>
+                <div class="col-12 col-md-7 col-lg-8 col-xl-5" style="position: absolute;top: 0;right: 0;">
+					<!-- sidebox -->
+					<div class="sidebox sidebox--desk " " style="background-color: #fff;">
+						<h4 class="sidebox__title">编辑评论</h4>
+                        {{ each comments }}
+                        <div class="post__comment commentBox" style="padding:5px 12px;position: relative;">
+                            <a href="/personalHomepage?id={{$value.userId._id}}" class="post__comment-img">
+                                <img src={{$value.userId.avatar}} alt="">
+                            </a>
+                            <div class="post__comment-title">
+                                <h5><a href="/personalHomepage?id={{$value.userId._id}}">{{$value.userId.nickname}}</a></h5>
+                                <p>于{{moment($value.time).format('YYYY-MM-DD') }}发表评论</p>
+                            </div>
+                            <p class="post__comment-text">
+                                {{ $value.content }}
+                            </p>
+                            <input class="comment_id" type="text" value="{{$value._id}}"  style="display: none;">
+                            <a  style="position: absolute;top: 20%;right: 5%;"  class="delete_comment post__actions-btn post__actions-btn--red" href="#" >
+                                <i class="iconfont" title="删除" >&#xec7b;</i>
+                            </a>
+                        </div>
+                        {{ /each }}
+					</div>
+					<!-- end sidebox -->
+				</div>
+			</div>
+		</div>
+
+	</main>
+    
+	<!-- end main content -->
+    <script>
+        // 删除文章评论
+        let deleteComments = document.getElementsByClassName('delete_comment')
+        let commentIds = document.getElementsByClassName('comment_id')
+        for(let i = 0 ; i < deleteComments.length ; i++){
+            deleteComments[i].onclick = function(e){
+                commentId = commentIds[i].value
+                console.log(i)
+                $.ajax({
+                        url: '/deleteComment',
+                        method: 'POST',
+                        data: 'id=' + commentId,
+                        type: 'json',
+                }).then(function(data){
+                    console.log(data)
+                    var err_code = data.err_code
+                    if (err_code === 0) {
+                        window.alert(data.message)
+                        history.go(0)
+                    }else if (err_code === 500) {
+                        window.alert('服务器忙，请稍后重试！')
+                    }
+                })
+            }
+        }
+        // 点击 tag 选择后样式变化
+        // let tags = document.getElementsByClassName('checkTag')
+        // console.log(tags)
+        // for(let tag of tags){
+        //     tag.onclick = function(e){
+        //         e.preventDefault();
+        //         console.log('点击了tag')
+        //         if(tag.classList.contains('tagActive') == true){
+        //             tag.classList.remove('tagActive')
+        //         }else{
+        //             tag.classList.add('tagActive')
+        //         }
+        //         console.log(tag.classList.contains('tagActive'))
+        //     }
+        // }
+        let formDataObj = new FormData()
+        //获取上传按钮
+        var input1 = document.getElementById("uploadCover"); 
+        if(typeof FileReader==='undefined'){ 
+            //result.innerHTML = "抱歉，你的浏览器不支持 FileReader"; 
+            input1.setAttribute('disabled','disabled'); 
+        }else{ 
+            input1.addEventListener('change',readFile,false); 
+        }
+        function readFile(){ 
+            var file = this.files[0];//获取上传文件列表中第一个文件
+            formDataObj.append('cover' , file)
+            var reader = new FileReader(); //实例一个文件对象
+            reader.readAsDataURL(file);    //把上传的文件转换成url
+            //当文件读取成功便可以调取上传的接口
+            reader.onload = function(e){ 
+                var image = new Image();
+                // 设置src属性 
+                image.src = e.target.result;
+                var max = 200;
+                // 绑定load事件处理器，加载完成后执行，避免同步问题
+                image.onload = function(){ 
+                    // 获取 canvas DOM 对象 
+                    var canvas = document.getElementById("cvs"); 
+                    // 如果高度超标 宽度等比例缩放 *= 
+                    // if(image.height > max) {
+                    //     image.width *= max / image.height; 
+                    //     image.height = max;
+                    // } 
+                    // 获取 canvas的 2d 环境对象, 
+                    var ctx = canvas.getContext("2d"); 
+                    // canvas清屏 
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+                    // 重置canvas宽高
+                    /*canvas.width = image.width;
+                    canvas.height = image.height;
+                    if (canvas.width>max) {canvas.width = max;}*/
+                    // 将图像绘制到canvas上
+                    // ctx.drawImage(image, 0, 0, image.width, image.height);
+                    ctx.drawImage(image, 0, 0, 200, 200);
+                    // 注意，此时image没有加入到dom之中
+                };  
+            }
+        };
+		
+		$('#edit_blog').on('submit', function (e) {
+            e.preventDefault()  //阻止默认事件
+            var formData = $(this).serializeArray()  //获取表单数据
+            for(let item of formData){
+                formDataObj.append(item.name , item.value)
+            }
+            let blogId = document.getElementById('blog_id').value
+            let userId = document.getElementById('user_id').value
+            formDataObj.append('blogId' , blogId)
+            $.ajax({
+                url: '/editBlog',
+                method: 'POST',
+                data: formDataObj,
+                processData: false,
+                contentType: false,
+            }).then(function(data){
+                var err_code = data.err_code
+				if (err_code === 0) {
+					window.alert('博客内容修改成功，为您跳转内容管理页面！')
+                    console.log(userId)
+                    window.location.href = '/managerBlog?id=' + userId
+				}  else if (err_code === 500) {
+					window.alert('服务器忙，请稍后重试！')
+				}
+            })
+        })
+		
+    </script>
+
+{{/block}}

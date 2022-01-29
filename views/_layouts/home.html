@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>{{block 'title'}}默认标题{{/block}}</title>
+<link rel="icon" href="/public/img/iLogo.svg">
+<link rel="stylesheet" href="/public/css/header.css">
+<link rel="stylesheet" href="/public/font/font1/iconfont.css">
+<link rel="stylesheet" href="/public/font/font2/iconfont.css">
+<link rel="stylesheet" href="/public/font/font4/iconfont.css">
+<link rel="stylesheet" href="/public/font/font3/iconfont.css">
+<link rel="stylesheet" href="/public/font/font5/iconfont.css">
+<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
+<!-- <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+<link rel="stylesheet" href="/public/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/public/css/nouislider.min.css">
+<link rel="stylesheet" href="/public/css/select2.min.css">
+<link rel="stylesheet" href="/public/css/jquery.mCustomScrollbar.min.css"> -->
+<link rel="stylesheet" href="/public/css/main2.css">
+<!-- <link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css"> -->
+<style>
+a{
+	text-decoration: none;
+}
+/* 当 main 内容不够的时候 footer在浏览器视图底部 */
+/* 当 main 内容较多时 footer 在页面内容最后 出现滚动条 */
+.wrap{
+	min-height: 100%;
+}
+.main{
+	padding-bottom: 71px;
+}
+.footer{
+	z-index: 99999;
+	width: 100%;
+	margin-top: -71px;
+	clear: both;
+}
+</style>
+{{block 'head'}}{{/block}}
+</head>
+
+<body>
+{{include '../_partials/header.html'}}
+{{block 'body'}}{{/block}}
+
+{{include '../_partials/footer.html'}}
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/js/owl.carousel.min.js"></script>
+<script src="/public/js/wNumb.js"></script>
+<script src="/public/js/nouislider.min.js"></script>
+<script src="/public/js/select2.min.js"></script>
+<script src="/public/js/jquery.mousewheel.min.js"></script>
+<script src="/public/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="/public/js/main2.js"></script>
+<script>
+	// let searchButton = document.getElementById('search_button')
+	// searchButton.onclick = function(e){
+	// 	let searchTag = document.getElementById('search_tag').innerText
+	// 	let searchContent = document.getElementById('search_content').value
+	// 	console.log('searchTag:',searchTag=='' , typeof searchTag)
+	// 	console.log('searchContent:',searchContent)
+	// 	if(!searchContent){
+	// 		window.alert('请输入搜索内容！')
+	// 	}else{
+	// 		if(searchTag==''){
+	// 			searchTag = 'All'
+	// 		}
+	// 		// 发送同步 ajax 请求
+	// 		$.ajax({
+	// 		method: 'POST',	
+    //         url: '/searchBlog',
+    //         async:  false,
+    //         data: 
+	// 		{
+	// 			searchTag: searchTag,
+	// 			searchContent: searchContent
+	// 		},
+	// 		success: function(data){
+	// 				console.log(data)
+	// 			}
+	// 		})
+	// 	}
+	// }
+</script>
+{{block 'script'}}{{/block}}
+</body>
+
+</html>

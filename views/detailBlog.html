@@ -1,0 +1,228 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}iBlog-detail{{/block}}
+{{block 'head'}}
+<style>
+    .likeActive{
+        color: rgb(231, 88, 164);
+    }
+</style>
+{{/block}}
+{{block 'body'}}
+    <main class="main">
+        <!-- 面包屑导航 -->
+		<div class="breadcrumb" style="margin-top: -50px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul class="breadcrumb__wrap">
+							<li class="breadcrumb__item breadcrumb__item--active"><a href="/">首页</a></li>
+                            <i class="iconfont"></i>
+							<li class="breadcrumb__item breadcrumb__item--active"><i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>博客详情</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end breadcrumb -->
+        <div class="container">
+            <div class="row" style="margin-top: -20px;">
+                
+                <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+                    <div class="user">
+                        <div class="user__head">
+                            <div class="user__img">
+                                <a href="/personalHomepage?id={{blog.author._id}}">
+                                    <img src={{ blog.author.avatar}} alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="user__title">
+                            <h2>{{ blog.author.nickname }}</h2>
+                        </div>
+                        <ul class="user__list">
+                            <li><span>性别</span> <span>{{ if blog.author.gender==0 }}女{{else if blog.author.gender==1}}男{{else}}保密{{/if}}</span></li>
+                            <li><span>生日</span> 
+                                <span>
+                                    {{moment(blog.author.birthday).format('YYYY-MM-DD') }}
+                                </span>
+                            </li>
+                            <li><span>邮箱</span> <span>{{ blog.author.email }}</span></li>
+                            <li><span>简介</span> <span></span></li>
+                            <li><span></span><span>{{ if blog.author.bio }}{{blog.author.bio}}{{ else }}这个很懒，什么也没有留下哦...{{ /if }}</span></li>
+                        </ul>
+                        <ul class="user__stats">
+                            <li>
+                                <p>关注</p>
+                                <span>{{ if blog.author.like }}{{blog.author.like}}{{ else }}0{{ /if }}</span>
+                            </li>
+                            <li>
+                                <p>粉丝</p>
+                                <span>{{ if blog.author.fan }}{{blog.author.fan}}{{ else }}0{{ /if }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 博客主体内容 -->
+                <div class="col-12 col-md-7 col-lg-8 col-xl-9">
+                    
+                    <!-- blog -->
+                    <div class="post">
+                        <h1 class="post__title">{{blog.title}}</h1>
+                        <div class="post__head">
+                            <a href="/personalHomepage?id={{blog.author._id}}" class="post__head-img">
+                                <img src={{blog.author.avatar}} alt="">
+                            </a>
+                            <div class="post__head-title">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                <h5><a href="/personalHomepage?id={{blog.author._id}}">{{blog.author.nickname}}</a></h5>
+                                <p>于{{moment(blog.time).format('YYYY-MM-DD') }}发布</p>
+                            </div>
+                        </div>
+                        <div class="post__wrap">
+                            <div class="post__company">
+                                <i class="iconfont"></i>
+                                <span>文章分类：{{ blog.kind }}</span>
+                            </div>
+                            <div class="post__location">
+                                <i class="iconfont"></i>
+                                <span>文章标签：</span>
+                                <div class="post__tags" style="position: relative;top: 10px;">
+                                    {{ each blog.tag}}
+                                    <a href="#">{{ $value }}</a>
+                                    {{ /each}}
+                                </div>
+                                
+                            </div>
+                            <!-- <div class="post__actions">
+                                <a class="post__actions-btn post__actions-btn--green" href="#">
+                                    <i class="iconfont" title="编辑">&#xe609;</i>
+                                </a>
+                                <a class="post__actions-btn post__actions-btn--red" href="#">
+                                    <i class="iconfont" title="删除">&#xec7b;</i>
+                                </a>
+                            </div> -->
+                        </div>
+                        
+                        <div class="post__description">
+                            <p>
+                                {{blog.content}}
+                            </p>
+                        </div>
+                        
+                        <div class="post__stats">
+                            <div>
+                                <a class="post__likes" href="#" title="点赞">
+                                    <input type="text" id="blog_id" name="blogId" value="{{ blog._id}}" style="display: none;">
+                                    {{ if isLike == 0}}
+                                    <i class="iconfont " id="like_blog">&#xe86f;</i>
+                                    {{ else }}
+                                    <i class="iconfont likeActive" id="like_blog">&#xe86f;</i>
+                                    {{ /if }}
+                                    <span>{{ likeNum }}</span>
+                                </a>
+                                <a class="post__comments" title="评论" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapse1">
+                                    <i class="iconfont">&#xe602;</i> 
+                                    <span>{{ commentNum }}</span>
+                                </a>
+                            </div>
+                            <div class="post__views" title="浏览量">
+                                <i class="iconfont">&#xe663;</i> 
+                                <span>{{ skimNum }}</span>
+                            </div>
+                        </div>
+
+                        <div class="collapse post__collapse show" id="collapse1">
+                            <form id="publish_comment" class="post__form" method="post">
+                                <input type="text" name="blogId" value="{{ blog._id}}" style="display: none;">
+                                <input type="text" placeholder="输入您的评论..." name="content" id="comment_content">
+                                <button type="submit"><i class="iconfont" title="发送评论">&#xe614;</i></button>
+                            </form>
+                            {{ each comments }}
+                            <div class="post__comment">
+                                <a href="/personalHomepage?id={{$value.userId._id}}" class="post__comment-img">
+                                    <img src={{$value.userId.avatar}} alt="">
+                                </a>
+                                <div class="post__comment-title">
+                                    <h5><a href="/personalHomepage?id={{$value.userId._id}}">{{$value.userId.nickname}}</a></h5>
+                                    <p>于{{moment($value.time).format('YYYY-MM-DD') }}发表评论</p>
+                                </div>
+                                <p class="post__comment-text">
+                                    {{ $value.content }}
+                                </p>
+                            </div>
+                            {{ /each }}
+                            
+                        </div>
+                        
+                    </div>
+                    <!-- end blog -->
+
+                </div>
+
+            </div>
+        </div>
+    </main>    
+</div>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<!-- end main content -->
+<script>
+likeBlog = document.getElementById('like_blog')
+likeBlog.onclick = function(e){
+    blogId = document.getElementById('blog_id').value
+    $.ajax({
+            url: '/likeBlog',
+            method: 'POST',
+            data: 'id=' + blogId,
+            type: 'json',
+        }).then(function(data){
+            console.log(data)
+            var err_code = data.err_code
+            if (err_code === 0) {
+                window.alert(data.message)
+                history.go(0)
+            } else if (err_code === 1) {
+                window.alert('请先登录再点赞！')
+                window.location.href = '/login'
+            } else if (err_code === 500) {
+                window.alert('服务器忙，请稍后重试！')
+            }
+        })
+    if(likeBlog.classList.contains('likeActive')){
+        likeBlog.classList.remove('likeActive')
+    }else{
+        likeBlog.classList.add('likeActive')
+    }
+}
+$('#publish_comment').on('submit', function (e) {
+    e.preventDefault()  //阻止默认事件
+    var commentContent = document.getElementById('comment_content').value
+    console.log(commentContent)
+    if(!commentContent){
+        window.alert('请输入评论！')
+    }else{
+        var formData = $(this).serializeArray()  //获取表单数据
+        $.ajax({
+            url: '/publishComment',
+            method: 'POST',
+            data: formData,
+            type: 'json',
+        }).then(function(data){
+            console.log(data)
+            var err_code = data.err_code
+            if (err_code === 0) {
+                window.alert('评论成功！')
+                history.go(0)
+            } else if (err_code === 1) {
+                // 未登录
+                window.alert(data.message)
+                window.location.href = '/login'
+            } else if (err_code === 500) {
+                window.alert('服务器忙，请稍后重试！')
+            }
+        })
+    }
+    
+})
+</script>
+
+{{/block}}

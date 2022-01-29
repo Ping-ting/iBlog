@@ -1,0 +1,348 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}{{'iBlog-changeInformation'}}{{/block}}
+{{block 'head'}}
+<link rel="stylesheet" href="/public/css/avatar.css">
+<link rel="icon" href="/public/img/iLogo.svg">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<style>
+	#form_link:hover{
+		text-decoration: underline;
+	}
+	.wrap{
+	min-height: 100%;
+	}
+	
+	.footer{
+	position: fixed;
+	z-index: 99999;
+	width: 100%;
+	bottom: 0;
+	}
+</style>
+{{/block}}
+
+{{block 'body'}}
+	<!-- main content -->
+	<main class="main main--breadcrumb" >
+		<!-- breadcrumb -->
+		<div class="breadcrumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul class="breadcrumb__wrap">
+							<li class="breadcrumb__item breadcrumb__item--active"><a href="#">首页</a></li>
+                            <i class="iconfont"></i>
+							<li class="breadcrumb__item breadcrumb__item--active"><i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>信息修改</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end breadcrumb -->
+		<div class="container" style="margin-top: -30px;">
+			<div class="row">
+				<!-- <div class="col-12 col-md-5 col-lg-4 col-xl-3" style="margin-top: 10px;">
+					<div class="user">
+                    <div class="user__head">
+                        <div class="user__img">
+                            <img src={{ user.avatar}} alt="">
+                        </div>
+                    </div>
+                    <div class="user__title">
+                        <h2>{{ user.nickname }}</h2>
+                    </div>
+                    <ul class="user__list">
+                        <li><span>性别</span> <span>{{ if user.gender==0 }}女{{else if user.gender==1}}男{{else}}保密{{/if}}</span></li>
+                        <li><span>生日</span> 
+                            <span>
+								{{moment(user.birthday).format('YYYY-MM-DD') }}
+                            </span>
+                        </li>
+                        <li><span>邮箱</span> <span>{{ user.email }}</span></li>
+                        <li><span>简介</span> <span></span></li>
+                        <li><span></span><span>{{ if user.bio!='' }}{{user.bio}}{{ else }}这个很懒，什么也没有留下哦...{{ /if }}</span></li>
+                    </ul>
+                    <ul class="user__stats">
+                        <li>
+                            <p>关注</p>
+                            <span>{{ if user.like }}{{user.like}}{{ else }}0{{ /if }}</span>
+                        </li>
+                        <li>
+                            <p>粉丝</p>
+                            <span>{{ if user.fan }}{{user.fan}}{{ else }}0{{ /if }}</span>
+                        </li>
+                    </ul>
+                	</div>
+				</div> -->
+
+				<div class="col-12 col-md-7 col-lg-8 col-xl-9" style="margin-top: 10px;">
+					<ul class="nav nav-tabs main__nav" id="main__nav" role="tablist">
+					
+						<li class="nav-item active" >
+							<a class="nav-link autoClick"  data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">基本信息</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link autoClick" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">密码修改</a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+
+						<div class="tab-pane active" id="tab-2" role="tabpanel" aria-labelledby="tab-2">
+							<!-- form -->
+							<form class="form" method="post" id="change_information">
+								<div class="row">
+									<div class="col-12"> 
+										<h2 class="form__title">Profile details</h2>
+									</div>
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<label for="email" class="form__label">邮箱:</label>
+											<input name="email" id="email" type="text" class="form__input" value="{{ user.email }}" disabled style="cursor: not-allowed;color: rgb(206, 206, 206);">
+										</div>
+                                        <div class="form__group">
+											<label for="nickname" class="form__label">昵称:</label>
+											<input name="nickname" id="nickname" type="text" class="form__input" value="{{ user.nickname}}">
+										</div>
+                                        <div class="form__group">
+                                            <label for="gender" class="form__label">性别：</label>
+                                            <div class="" style="width: 100%;position: relative;">
+                                                <i class="iconfont" style="font-size: 12px;color:rgb(194, 194, 194) ;position: absolute;right: 10%;top: 30%;cursor: pointer;">&#xe624;</i>
+                                                <select name="gender" id="" class="form__select">
+                                                    {{ if user.gender==0}}
+                                                    <option value="0" selected>女</option>
+                                                    <option value="1">男</option>
+                                                    {{else if user.gender==1}}
+                                                    <option value="0">女</option>
+                                                    <option value="1" selected>男</option>
+                                                    {{else}}
+                                                    <option value="-1" style="color: rgb(228, 228, 228);" selected>点我选择</option>
+                                                    <option value="0">女</option>
+                                                    <option value="1">男</option>
+                                                    {{/if}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form__group">
+											<label for="birthday" class="form__label">生日:</label>
+											<input name="birthday" id="birthday" type="date" class="form__input" value= {{moment(user.birthday).format('YYYY-MM-DD') }} >
+										</div>
+									</div>
+                                    <div class="col-12 col-lg-6">
+										<div class="form-group">
+											<label for="nickname" class="form__label"><span style="width: 120px;display: inline-block;"></span> 头像:</label><br>
+                                            <label for="avatar" class="form__label"><span style="width: 120px;display: inline-block;"></span><span style="font-size: 12px;color: #8599ab;font-weight: normal;"> 建议选择正方形的图片哦...</span></label>
+                                            <div class="con4">
+                                                <canvas id="cvs" width="200" height="200"></canvas>
+                                                <span class="btn upload ">上传新头像<input type="file" class="upload_pic" id="uploadAvatar" name="avatar" /></span>
+                                            </div>
+                                        </div>
+									</div>
+                                    
+                                    <div class="col-12 col-lg-11">
+										<div class="form__group">
+											<label for="bio" class="form__label">简介:</label>
+											<input name="bio" id="bio" type="text" class="form__input" value="{{user.bio }}">
+										</div>
+									</div>
+									<div class="col-12">
+										<button class="form__btn" type="submit"><span>保存</span></button>
+									</div>
+								</div>
+							</form>
+							<!-- end form -->
+						</div>
+
+						<div class="tab-pane fade active" id="tab-3" role="tabpanel" aria-labelledby="tab-3">
+							<!-- form -->
+							<form method="post" class="form" id="change_password">
+								<div class="row">
+									<div class="col-12">
+										<h2 class="form__title">Change password</h2>
+									</div>
+
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<label for="oldPassword" class="form__label">Old password:</label>
+											<input name="oldPassword" type="password" class="form__input">
+										</div>
+									</div>
+
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<label for="newPassword" class="form__label">New Password:</label>
+											<input name="newPassword" type="password" class="form__input">
+										</div>
+									</div>
+
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<label for="confirmPassword" class="form__label">Confirm New Password:</label>
+											<input name="confirmPassword" type="password" class="form__input">
+										</div>
+									</div>
+									<div class="form__group">
+										<a class="form__link" id="form_link" href="/changePasswordByCode" style="color: #3796f6;">忘记密码了？点我通过邮箱验证修改</a>
+									</div>
+									<div class="col-12">
+										<button class="form__btn" type="submit"><span>确定修改</span></button>
+									</div>
+								</div>
+							</form>
+							<!-- end form -->
+						</div>
+
+					</div>
+
+				</div>
+
+                <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+					<!-- sidebox -->
+					<div class="sidebox sidebox--desk">
+						<h4 class="sidebox__title">人们查看了主页和资料</h4>
+						<div class="sidebox__content">
+							<div class="sidebox__user">
+								<a href="#" class="sidebox__user-img">
+									<img src="/public/img/01.jpg" alt="">
+								</a>
+								<div class="sidebox__user-title">
+									<h5><a href="#">玛莎·鲍德温（Marsha Baldwin）</a></h5>
+									<p>11分钟前</p>
+								</div>
+								<button class="sidebox__user-btn" type="button">
+									<i class="icon ion-ios-add"></i>
+								</button>
+							</div>
+
+							<div class="sidebox__user">
+								<a href="#" class="sidebox__user-img">
+									<img src="/public/img/03.jpg" alt="">
+								</a>
+								<div class="sidebox__user-title">
+									<h5><a href="#">玛莎·鲍德温（Marsha Baldwin）</a></h5>
+									<p>11分钟前</p>
+								</div>
+								<button class="sidebox__user-btn" type="button">
+									<i class="icon ion-ios-add"></i>
+								</button>
+							</div>
+						</div>
+						<a href="#" class="sidebox__more">查看更多</a>
+					</div>
+					<!-- end sidebox -->
+				</div>
+			</div>
+		</div>
+
+	</main>
+	<!-- end main content -->
+    <script>
+        //点击俩个导航标签都移除 fade属性 可便于显示
+        var autoClick = document.getElementsByClassName("autoClick")
+        for(let item of autoClick){
+            item.addEventListener('click' , function(){
+                document.getElementById("tab-3").classList.remove('fade')
+            })
+        }
+
+        let formDataObj = new FormData()
+        //获取上传按钮
+        var input1 = document.getElementById("uploadAvatar"); 
+        if(typeof FileReader==='undefined'){ 
+            //result.innerHTML = "抱歉，你的浏览器不支持 FileReader"; 
+            input1.setAttribute('disabled','disabled'); 
+        }else{ 
+            input1.addEventListener('change',readFile,false); 
+        }
+        function readFile(){ 
+            var file = this.files[0];//获取上传文件列表中第一个文件
+            formDataObj.append('avatar' , file)
+            var reader = new FileReader(); //实例一个文件对象
+            reader.readAsDataURL(file);    //把上传的文件转换成url
+            //当文件读取成功便可以调取上传的接口
+            reader.onload = function(e){ 
+                var image = new Image();
+                // 设置src属性 
+                image.src = e.target.result;
+                var max = 200;
+                // 绑定load事件处理器，加载完成后执行，避免同步问题
+                image.onload = function(){ 
+                    // 获取 canvas DOM 对象 
+                    var canvas = document.getElementById("cvs"); 
+                    // 如果高度超标 宽度等比例缩放 *= 
+                    // if(image.height > max) {
+                    //     image.width *= max / image.height; 
+                    //     image.height = max;
+                    // } 
+                    // 获取 canvas的 2d 环境对象, 
+                    var ctx = canvas.getContext("2d"); 
+                    // canvas清屏 
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+                    // 重置canvas宽高
+                    /*canvas.width = image.width;
+                    canvas.height = image.height;
+                    if (canvas.width>max) {canvas.width = max;}*/
+                    // 将图像绘制到canvas上
+                    // ctx.drawImage(image, 0, 0, image.width, image.height);
+                    ctx.drawImage(image, 0, 0, 200, 200);
+                    // 注意，此时image没有加入到dom之中
+                };  
+            }
+        };
+        
+		// 基本信息修改请求
+		$('#change_information').on('submit', function (e) {
+            e.preventDefault()  //阻止默认事件
+            var formData = $(this).serializeArray()  //获取表单数据
+            for(let item of formData){
+                // console.log(item)
+                formDataObj.append(item.name , item.value)
+            }
+            $.ajax({
+                url: '/changeInformation',
+                method: 'POST',
+                data: formDataObj,
+                processData: false,
+                contentType: false,
+            }).then(function(data){
+                var err_code = data.err_code
+				if (err_code === 0) {
+					window.alert('修改信息成功！')
+					window.location.href = '/changeInformation'
+				} else if (err_code === 1) {
+					window.alert(data.message)
+				} else if (err_code === 2) {
+					window.alert(data.message)
+				} else if (err_code === 500) {
+					window.alert('服务器忙，请稍后重试！')
+				}
+            })
+        })
+		// 修改密码
+		$('#change_password').on('submit', function (e) {
+            e.preventDefault()  //阻止默认事件
+            var formDataPassword = $(this).serialize()  //获取表单数据
+			console.log(formDataPassword)
+            $.ajax({
+                url: '/changePasswordByOld',
+                method: 'POST',
+                data: formDataPassword,
+				dataType: 'json',
+            }).then(function(data){
+                var err_code = data.err_code
+				if (err_code === 0) {
+					window.alert('密码修改成功！')
+					window.alert('登录过期，为您跳转至登录页面！')
+					window.location.href = '/login'
+				} else if (err_code === 1) {
+					window.alert(data.message)
+				}else if (err_code === 500) {
+					window.alert('服务器忙，请稍后重试！')
+				}
+            })
+        })
+    </script>
+
+{{/block}}

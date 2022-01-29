@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>iBlog-register</title>
+<link rel="icon" href="/public/img/iLogo.svg">
+<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/public/css/login.css">
+
+</head>
+<body>
+<div class="main">
+	<div class="container a-container" id="a-container">
+		<form class="form" id="register_form">
+			<h2 class="form_title title">Create Account</h2>
+			<input class="form__input" type="text" placeholder="Email" name="email" id="register_email">
+			<input class="form__input" type="text" placeholder="Nickname" name="nickname" id="register_nickname">
+			<input class="form__input" type="password" placeholder="Password" name="password" id="register_password">
+			<button class="form__button button submit" type="submit">SIGN UP</button>
+		</form>
+	</div>
+	<div class="container b-container" id="b-container">
+		<form class="form" id="login_form">
+			<h2 class="form_title title">Sign in to Website</h2>
+			<input class="form__input" type="text" placeholder="Email" name="email" id="login_email" value="{{ account && account.email }}">
+			<input class="form__input" type="password" placeholder="Password" name="password" id="login_password" value="{{ account && account.password }}">
+			<div class="col-sm-offset-2 col-sm-10" style="cursor: pointer;">
+				<!-- <div class="checkbox">
+					<label>
+						<input type="checkbox" name="automatic" style="cursor: pointer;" >
+						<span style="vertical-align: -2px;color: #3c3c3c;">Automatic logon</span>
+					</label>
+				</div> -->
+				{{if account}}
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="remember" style="cursor: pointer;" checked>
+						<span style="vertical-align: -2px;color: #3c3c3c;"> Remember mailbox and password (7 days)</span>
+					</label>
+				</div>
+				{{else}}
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="remember" style="cursor: pointer;">
+						<span style="vertical-align: -2px;color: #3c3c3c;"> Remember mailbox and password (7 days)</span>
+					</label>
+				</div>
+				{{/if}}
+			</div>
+			<a class="form__link" href="/forgetPassword">Forgot your password?</a>
+			<button class="form__button button submit" type="submit">SIGN IN</button>
+		</form>
+	</div>
+	<div class="switch" id="switch-cnt">
+		<div class="switch__circle"></div>
+		<div class="switch__circle switch__circle--t"></div>
+		<div class="switch__container" id="switch-c1">
+			<h2 class="switch__title title">Welcome Back !</h2>
+			<p class="switch__description description">To keep connected with us please login with your personal info</p>
+			<button class="switch__button button switch-btn">SIGN IN</button>
+		</div>
+		<div class="switch__container is-hidden" id="switch-c2">
+		<h2 class="switch__title title">Hello Friend !</h2>
+		<p class="switch__description description">Enter your personal details and start journey with us</p>
+		<button class="switch__button button switch-btn">SIGN UP</button>
+		</div>
+	</div>
+	</div>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/public/js/register.js"></script>
+<script>
+$('#register_form').on('submit', function (e) {
+	e.preventDefault()  //阻止默认事件
+	if(document.getElementById("register_email").value && document.getElementById("register_nickname").value  && document.getElementById("register_password").value ){
+		var formData = $(this).serialize()  //获取表单数据
+		$.ajax({
+			url: '/register',
+			type: 'post',
+			data: formData,
+			dataType: 'json',
+			success: function (data) {
+				var err_code = data.err_code
+				if (err_code === 0) {
+					// window.alert('注册成功！')
+					// 服务端重定向针对异步请求无效
+					// 客户端重定向到 邮箱验证页面 get请求 带上email
+					window.location.href = '/email?email=' + data.message
+				} else if (err_code === 1) {
+					window.alert('邮箱已注册！')
+				} else if (err_code === 2) {
+					window.alert(data.message)
+				} else if (err_code === 500) {
+					window.alert('服务器忙，请稍后重试！')
+				}
+			}
+		})
+	}else{
+		window.alert('请注意信息填写完整！')
+	}
+})
+
+$('#login_form').on('submit', function (e) {
+	e.preventDefault()  //阻止默认事件
+	if(document.getElementById("login_email").value && document.getElementById("login_password").value){
+		let formData = $(this).serialize()  //获取表单数据
+		console.log(formData)
+		$.ajax({
+			url: '/login',
+			type: 'post',
+			data: formData,
+			dataType: 'json',
+			success: function (data) {
+				var err_code = data.err_code
+				if (err_code === 0) {
+					window.alert('登录成功，为您跳转主页！')
+					window.location.href = '/'
+				} else if (err_code === 1) {
+					window.alert('密码或者邮箱有误！')
+				} else if (err_code === 500) {
+					window.alert('服务器忙，请稍后重试！')
+				}
+			}
+		})
+	}else{
+		window.alert('请注意信息填写完整！')
+	}
+	
+})
+
+</script>
+</body>
+</html>

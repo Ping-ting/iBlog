@@ -1,0 +1,65 @@
+{
+  "id": "3123122",
+  "name": "font",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1310",
+      "name": "皇冠",
+      "font_class": "huangguan",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "445237",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "5543849",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "6349604",
+      "name": "学习平台",
+      "font_class": "xuexipingtai",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "9324014",
+      "name": "我的认证1",
+      "font_class": "woderenzheng",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "10481384",
+      "name": "抽奖",
+      "font_class": "choujiang",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "11881358",
+      "name": "内容管理",
+      "font_class": "neirongguanli",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "12435114",
+      "name": "个人中心",
+      "font_class": "gerenzhongxin",
+      "unicode": "e72a",
+      "unicode_decimal": 59178
+    }
+  ]
+}

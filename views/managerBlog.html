@@ -1,0 +1,197 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}iBlog-personalHomepage{{/block}}
+
+{{block 'head'}}
+<style>
+.blog_main{
+    height: 190px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.blog_cover{
+    width: 25%;
+    position: absolute;
+    top: 0px;
+}
+.post__description{
+    width: 72%;
+    float: right;
+}
+</style>
+{{/block}}
+{{block 'body'}}
+    <main class="main">
+        <!-- 面包屑导航 -->
+		<div class="breadcrumb" style="margin-bottom: 0;margin-top: -40px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul class="breadcrumb__wrap">
+							<li class="breadcrumb__item breadcrumb__item--active"><a href="/">首页</a></li>
+                            <i class="iconfont"></i>
+							<li class="breadcrumb__item breadcrumb__item--active"><i class="iconfont" style="vertical-align: -1px;">&nbsp;&nbsp;&#xe707; </i>内容管理</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end breadcrumb -->
+        <div class="container">
+            <div class="row">
+                <!-- <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+                    <div class="user">
+                        <div class="user__head">
+                            <div class="user__img">
+                                <img src={{ person.avatar}} alt="">
+                            </div>
+                        </div>
+                        <div class="user__title">
+                            <h2>{{ person.nickname }}</h2>
+                        </div>
+                        <ul class="user__list">
+                            <li><span>性别</span> <span>{{ if person.gender==0 }}女{{else if person.gender==1}}男{{else}}保密{{/if}}</span></li>
+                            <li><span>生日</span> 
+                                <span>
+                                    {{moment(person.birthday).format('YYYY-MM-DD') }}
+                                </span>
+                            </li>
+                            <li><span>邮箱</span> <span>{{ person.email }}</span></li>
+                            <li><span>博客数量</span> <span>{{ blogsNum }}</span></li>
+                            <li><span>简介</span> <span></span></li>
+                            <li><span></span><span>{{ if person.bio }}{{person.bio}}{{ else }}这个很懒，什么也没有留下哦...{{ /if }}</span></li>
+                        </ul>
+                        <ul class="user__stats">
+                            <li>
+                                <p>关注</p>
+                                <span>{{ if person.like }}{{person.like}}{{ else }}0{{ /if }}</span>
+                            </li>
+                            <li>
+                                <p>粉丝</p>
+                                <span>{{ if person.fan }}{{person.fan}}{{ else }}0{{ /if }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                 -->
+                <!-- 博客主体内容 -->
+                <div class="col-12 col-md-7 col-lg-8 col-xl-9" style="position: relative;">
+                    
+                    {{ each blogs }}
+                    <!-- blog -->
+                    <div class="post">
+                        <!-- <div class="post__head">
+                            <a href="/personalHomepage?id={{$value.author._id}}" class="post__head-img">
+                                <img src={{$value.author.avatar}} alt="">
+                            </a>
+                            <div class="post__head-title">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                <h5><a href="/personalHomepage?id={{$value.author._id}}">{{$value.author.nickname}}</a></h5>
+                                <p>{{moment($value.time).format('YYYY-MM-DD') }}</p>
+                            </div>
+                        </div> -->
+                        <div class="post__wrap">
+                            <!-- <div class="post__company">
+                                <i class="iconfont"></i>
+                                <span>{{if $value.author.gender==0}}女{{else if $value.author.gender==1}}男{{else}}未知{{/if}}</span>
+                            </div>
+                            <div class="post__location">
+                                <i class="iconfont"></i>
+                                <span>来自陕西西安</span>
+                            </div> -->
+                            <div class="post__actions">
+                                <a  class="post__actions-btn post__actions-btn--green" href="/editBlog?id={{$value._id}}">
+                                    <i class="iconfont" title="编辑">&#xe609;</i>
+                                </a>
+                                <input type="text" class="blog_id" name="blogId" value="{{ $value._id}}" style="display: none;">
+                                <a  class="delete_blog post__actions-btn post__actions-btn--red" href="#" >
+                                    <i class="iconfont" title="删除" >&#xec7b;</i>
+                                </a>
+                            </div>
+                        </div>
+                        <h2 class="post__title">{{$value.title}}</h2>
+                        <div class="blog_main" style="position: relative;">
+                            
+                            <img class="blog_cover" src={{$value.cover}} alt="">
+                            
+                            <div class="post__description">
+                                <p>
+                                    {{$value.content}}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="post__tags">
+                            {{ each $value.tag}}
+                            <a href="#">{{ $value }}</a>
+                            {{ /each}}
+                        </div>
+                        
+
+                    </div>
+                    <!-- end blog -->
+                    {{ /each }}
+
+                </div>
+                <div class="col-12 col-md-5 col-lg-4 col-xl-3" style="margin-top: -10px;">
+					<!-- sidebox -->
+					<div class="sidebox sidebox--desk">
+						<h4 class="sidebox__title">人们查看了你的博客</h4>
+						<div class="sidebox__content">
+							<div class="sidebox__user">
+								<a href="#" class="sidebox__user-img">
+									<img src="/public/img/01.jpg" alt="">
+								</a>
+								<div class="sidebox__user-title">
+									<h5><a href="#">玛莎·鲍德温</a></h5>
+									<p>11分钟前</p>
+								</div>
+								
+							</div>
+
+							<div class="sidebox__user">
+								<a href="#" class="sidebox__user-img">
+									<img src="/public/img/03.jpg" alt="">
+								</a>
+								<div class="sidebox__user-title">
+									<h5><a href="#">玛莎·鲍德温</a></h5>
+									<p>11分钟前</p>
+								</div>
+							</div>
+						</div>
+						<a href="#" class="sidebox__more">查看更多</a>
+					</div>
+					<!-- end sidebox -->
+				</div>
+            </div>
+        </div>
+    </main>    
+</div>
+
+<!-- end main content -->
+<script>
+deleteBlogs = document.getElementsByClassName('delete_blog')
+blogIds = document.getElementsByClassName('blog_id')
+for(let i = 0; i < deleteBlogs.length ;  i++){
+    deleteBlogs[i].onclick = function(e){
+    blogId = blogIds[i].value
+    console.log(i)
+    $.ajax({
+            url: '/deleteBlog',
+            method: 'POST',
+            data: 'id=' + blogId,
+            type: 'json',
+        }).then(function(data){
+            console.log(data)
+            var err_code = data.err_code
+            if (err_code === 0) {
+                window.alert(data.message)
+                history.go(0)
+            }else if (err_code === 500) {
+                window.alert('服务器忙，请稍后重试！')
+            }
+        })
+    }
+}
+</script>
+
+{{/block}}

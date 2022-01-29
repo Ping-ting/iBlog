@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iBlog-validate</title>
+    <link rel="icon" href="/public/img/iLogo.svg">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/login.css">
+</head>
+<body>
+    <div class="main">
+        <div class="container a-container">
+            <form action="/sureCode" class="form" method="post" id="sure_code">
+                <h2 class="form_title title">Test and Verity</h2>
+                <input class="form__input" type="text"  id="email" name="email" value="{{ email }}" disabled style="cursor: not-allowed;margin-bottom: 5%;">
+                <input class="form__input" type="text" placeholder="Code" name="getCode">
+                <input type="button"  onclick="abc()" class="btn btn-danger" id="emailCode" value="发送验证码" style="position:relative; left: 22%;bottom: 7%;background-color: #4B70E2;border: none;outline: none;">
+                <button class="form__button button submit" type="submit">Sure</button>
+            </form>
+        </div>
+        <div class="switch switch__container">
+            <div class="switch__circle"></div>
+            <div class="switch__circle switch__circle--t"></div>
+            <h2 class="switch__title title">iBlog</h2>
+            <p class="switch__description description">Blog is a technology community where you can speak freely, share your experience and gain experience.</p>
+        </div>
+        
+    </div>
+</body>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    function abc() {
+        var time = 60;//定义60秒的倒计时
+        var email = document.getElementById("email").value
+
+        // Post 发送验证码请求 /sendCode
+        var xhr = new XMLHttpRequest()
+        xhr.open('post',"/sendCode")
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        xhr.send("email=" + email)
+        xhr.onload = function() {
+            console.log(xhr.responseText)
+            // var err_code = JSON.parse(xhr.responseText).err_code
+            // if(xhr.status == 200 && err_code == 1) {
+            //     window.location.href = '/login'
+            // }else if(xhr.status == 200&&err_code == 0) {
+            //     window.alert('注册失败')
+            // }
+        }
+
+        //这里我用的是ajax将用户名和邮箱发到后台
+        $('#sure_code').on('submit', function (e) {
+            e.preventDefault()                  //阻止默认事件
+            var formData = $(this).serialize()  //获取表单数据
+            formData = formData + '&email=' + email
+            console.log(formData)
+            $.ajax({
+                url: '/sureCode',
+                type: 'post',
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    var err_code = data.err_code
+                    if (err_code === 0) {
+                        // 成功注册 跳转登录页面
+                        window.alert('成功注册 为您跳转登录页面！')
+                        // 使用replace 可以让用户返回时无法退回输入验证码表单的页面 防止不必要的问题
+                        window.location.replace('/login')
+                    } else if (err_code === 1) {
+                        window.alert('验证码错误！')
+                    } else if (err_code === 2) {
+                        window.alert('已超时，请重新获取！')
+                    } else if (err_code === 500) {
+                        window.alert('服务器忙，请稍后重试！')
+                    }
+                    }
+            })
+            })
+        //设置一个定时，一秒执行一次
+        var myTime = setInterval(function () {
+            subs();
+        },1000)
+        function subs(){
+            time --;
+            $('#emailCode').attr("value","请"+time+"秒后再试");
+            if(time === 0){
+                clearInterval(myTime);
+                $('#emailCode').attr("value","发送验证码");
+                $('#emailCode').attr("disabled" , false);//按键可用
+            } else{
+                $('#emailCode').attr("disabled" , true);//按键不可用
+            }
+        }
+    }
+</script>
+</html>

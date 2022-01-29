@@ -1,0 +1,37 @@
+{
+  "id": "3142984",
+  "name": "font5",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "26082634",
+      "name": "对号",
+      "font_class": "duihao",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "3287472",
+      "name": "查看详情",
+      "font_class": "icon-",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    },
+    {
+      "icon_id": "6049799",
+      "name": "下拉",
+      "font_class": "xiala",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "17692248",
+      "name": "面包屑",
+      "font_class": "mianbaoxie",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "3164193",
+  "name": "5",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "647887",
+      "name": "出发",
+      "font_class": "chufa",
+      "unicode": "e71c",
+      "unicode_decimal": 59164
+    },
+    {
+      "icon_id": "17967651",
+      "name": "火热",
+      "font_class": "huore",
+      "unicode": "eebc",
+      "unicode_decimal": 61116
+    },
+    {
+      "icon_id": "26419928",
+      "name": "火热",
+      "font_class": "huore1",
+      "unicode": "1001d",
+      "unicode_decimal": 65565
+    }
+  ]
+}
